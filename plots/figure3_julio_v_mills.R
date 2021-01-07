@@ -17,8 +17,8 @@
   # pyid = play_used$playId[i]
   
   #manual
-  gmid = 2018090600 #2018090902
-  pyid = 2474 #2624
+  gmid = 2018090600
+  pyid = 2474 
 }
 
 # load play data
@@ -402,7 +402,7 @@
 {
   p_QOS <- ggplot() + 
     #pitch layout background
-    geom_rect(data=df.hash, xmin=xmin, xmax=xpy_colors$home_1max, ymin=ymin, ymax=ymax, fill="#88c999", alpha=0.2) +
+    geom_rect(data=df.hash, xmin=xmin, xmax=xmax, ymin=ymin, ymax=ymax, fill="#88c999", alpha=0.2) +
     
     annotate("segment", x = c(xmin, xmin, xmax, xmax), 
              y = c(ymin, ymax, ymax, ymin), 
@@ -443,8 +443,8 @@
                  size = 1, arrow = arrow(length = unit(0.01, "npc"))) +
     geom_point(data = bd, aes(x = bx, y = by),
                colour = "black", fill = "white", shape = 17, size = 2, stroke = 1) +
-    # geom_point(data = qp, aes(x = x, y = y, size = I(sze)+3, group = nflId), col = 'green',
-    #            pch = 19) +
+    geom_point(data = qp, aes(x = x, y = y, size = I(sze)+3, group = nflId), col = 'green',
+               pch = 19) +
     # away team locs and jersey numbers
     geom_point(
       data = qp %>% dplyr::filter(team == 'away'),
@@ -469,13 +469,15 @@
       mapping = aes(x = x, y = y, label = jerseyNumber),
       colour = py_colors$home_2, size = 3 
     ) +
+    geom_text(data = qp, aes(x = x, y = y, label = round(QOSi,2)), colour = "black",
+              hjust = 0.4, size = 2.5, vjust = 0, nudge_y = 3) +
     # scale_size_manual(values = c(7, 4), guide = FALSE) + 
     # scale_shape_manual(values = c(19, 19), guide = FALSE) +
     
     #pitch control raster
     
     ylim(ymin, ymax)+
-    ggtitle(paste(as.character(py$playDescription[1]), " \n Quality of Space (QOS)", sep = '')) +
+    ggtitle(paste(substr(as.character(py$playDescription[1]),1,74), " \n Quality of Space (QOS)", sep = '')) +
     coord_fixed() +  
     theme_void()   + 
     theme(plot.title = element_text(size = 10, hjust = 0.5)) +
@@ -486,25 +488,27 @@
 
 # animated plot - QOSi for Jones vs Mills
 {
-bs = subset(vnt, gameId == gmid & playId == pyid & event == 'ball_snap')$frameId[1]
-pf = subset(vnt, gameId == gmid & playId == pyid & event == 'pass_forward')$frameId[1]
+bs = subset(p0, displayName == 'Football' & event == 'ball_snap')$frameId[1]
+pf = subset(p0, gameId == gmid & playId == pyid & event == 'pass_forward')$frameId[1]
 ct = qp %>% 
-  filter((nflId == 2495454 | nflId == 2555383) & frameId <= pf + 7) %>%
-  mutate(clr = ifelse(team == 'away', py_colors$away_1, py_colors$home_1))
+  filter((nflId == 2495454 | nflId == 2555383 | nflId == 2534832)) %>%
+  mutate(clr = ifelse(team == 'away', py_colors$away_1, 
+                      ifelse(nflId == 2555383, py_colors$home_1, py_colors$home_2)))
 
 p_QOSi = ggplot(data = ct, 
        aes(y = QOSi, x = frameId, group = displayName, color = clr)) +
-  geom_line(lwd = 1.5) +
+  geom_line(aes(color = clr), lwd = 1.5) +
   geom_vline(xintercept = bs, col = 'black') +
   geom_vline(xintercept = pf, col = 'black') +
   scale_colour_identity("Player", guide="legend", 
-                        labels = c("Jalen Mills", "Julio Jones")) +
-  labs(title = "QOSi - Julio Jones vs Jalen Mills") +
+                        labels = c("Jalen Mills", "Rodney McLeod", "Julio Jones")) +
+  labs(title = "QOSi - Julio Jones vs Jalen Mills & Rodney McLeod") +
   ylim(0, .1) +
   xlim(0, pf + 7) +
   theme_light() +
   theme(plot.title = element_text(hjust = 0.5)) +
-  transition_time(frameId)
+  transition_reveal(frameId)
+
 }
 
 # save animated plot
@@ -516,13 +520,13 @@ flnm = paste("D:/Downloads/animation_QOS_",gmid,"_",pyid,".gif", sep = '')
       # 10 = live time (nfl captures at 10 fps)
       # 5 = slower / good to understand play
       # 1 = decrepit/extremely slow
-  anim_QOS = animate(p_QOS, fps = 10, nframe = play.length.ex, width = 850, height = 400)
-  anim_QOSi = animate(p_QOSi, fps = 10, nframe = play.length.ex, width = 850, height = 400)
+  anim_QOS = animate(p_QOS, fps = 10, nframe = play.length.ex, width = 450, height = 250)
+  anim_QOSi = animate(p_QOSi, fps = 10, nframe = play.length.ex, width = 450, height = 250)
   
   cmb_gif <- image_append(c(anim_QOS[1], anim_QOSi[1]))
   
   for(i in 2:play.length.ex){
-    combined <- image_append(c(anim_QOSi[i], anim_QOSi[i]))
+    combined <- image_append(c(anim_QOS[i], anim_QOSi[i]))
     cmb_gif <- c(cmb_gif, combined)
   }
 
