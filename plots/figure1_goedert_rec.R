@@ -291,7 +291,7 @@
   
   pitch_control = merge(pitch_control, mod_result, by = 'yardmarker', all.x = TRUE)
   
-  pitch_control$pv = -pitch_control$xEPA/16 + 0.5
+  pitch_control$pv = pitch_control$xEPA/16 + 0.5
   
   pitch_control$qos = pitch_control$pv * pitch_control$PC
   
@@ -563,7 +563,7 @@
     ggtitle(paste(as.character(py$playDescription[1]), " \n Field Value (FV)", sep = '')) +
     coord_fixed() +  
     theme_void()   + 
-    theme(plot.title = element_text(size = 10, hjust = 0.5)) +
+    theme(plot.title = element_text(size = 9, hjust = 0.5)) +
     transition_time(frameId)  +
     ease_aes('linear') +
     NULL
@@ -666,9 +666,9 @@ flnm = paste("D:/Downloads/animation_SV_",gmid,"_",pyid,".gif", sep = '')
   # 10 = live time (nfl captures at 10 fps)
   # 5 = slower / good to understand play
   # 1 = decrepit/extremely slow
-  anim_SV = animate(p_SV, fps = 10, nframe = play.length.ex, width = 850, height = 400)
-  anim_FV = animate(p_FV, fps = 10, nframe = play.length.ex, width = 850, height = 400)
-  anim_QOS = animate(p_QOS, fps = 10, nframe = play.length.ex, width = 850, height = 400)
+  anim_SV = animate(p_SV, fps = 10, nframe = play.length.ex, width = 450, height = 250)
+  anim_FV = animate(p_FV, fps = 10, nframe = play.length.ex, width = 450, height = 250)
+  anim_QOS = animate(p_QOS, fps = 10, nframe = play.length.ex, width = 450, height = 250)
   
   cmb_gif <- image_append(c(anim_SV[1], anim_FV[1], anim_QOS[1]))
   
