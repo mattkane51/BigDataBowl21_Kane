@@ -1,16 +1,17 @@
 # install packages
 {
-  install.packages('gganimate')
-  install.packages('ggplot2')
-  install.packages('dplyr')
-  install.packages('tidyverse')
-  install.packages('mvtnorm') 
-  install.packages('tidyr')
-  install.packages('ggnewscale')
-  install.packages('purrr')
-  install.packages('rlang')
-  install.packages('stringr')
-  install.packages('magick')
+  # install.packages('gganimate')
+  # install.packages('ggplot2')
+  # install.packages('dplyr')
+  # install.packages('tidyverse')
+  # install.packages('mvtnorm') 
+  # install.packages('tidyr')
+  # install.packages('ggnewscale')
+  # install.packages('purrr')
+  # install.packages('rlang')
+  # install.packages('stringr')
+  # install.packages('magick')
+  # install.packages('gridExtra')
 }
 
 # load packages
@@ -26,6 +27,7 @@
   library(rlang)
   library(stringr)
   library(magick)
+  library(gridExtra)
 }
 
 # load & alter play / game data
