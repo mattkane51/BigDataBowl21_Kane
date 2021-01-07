@@ -41,4 +41,4 @@ eq_an = ggplot(data = eq_df, mapping = aes(x=x, y=y, group = Team, colour = Team
   
 an_eq = animate(eq_an, fps = 10)
 
-anim_save("D:/downloads/QOSi_equations_anim.gif", an_eq)
+anim_save("D:/downloads/QOSi_equations_anim2.gif", an_eq)
