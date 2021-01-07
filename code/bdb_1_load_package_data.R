@@ -10,6 +10,7 @@
   install.packages('purrr')
   install.packages('rlang')
   install.packages('stringr')
+  install.packages('magick')
 }
 
 # load packages
@@ -24,6 +25,7 @@
   library(purrr)
   library(rlang)
   library(stringr)
+  library(magick)
 }
 
 # load & alter play / game data
