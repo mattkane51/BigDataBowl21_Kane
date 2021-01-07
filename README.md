@@ -11,3 +11,7 @@ NFL Big Data Bowl 2021 Repo for Matt Kane
 
 ![](figure5.png)
 
+![](figure6.png)
+
+![](figure7.png)
+
