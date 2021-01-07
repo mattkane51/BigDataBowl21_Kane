@@ -474,8 +474,8 @@
     
     #pitch control raster
     
-    ylim(ymin, ymax) +
-    ggtitle("Quality of Space Occupation (QOS)") +
+    ylim(ymin, ymax)+
+    ggtitle(paste(as.character(py$playDescription[1]), " \n Quality of Space (QOS)", sep = '')) +
     coord_fixed() +  
     theme_void()   + 
     theme(plot.title = element_text(size = 10, hjust = 0.5)) +
