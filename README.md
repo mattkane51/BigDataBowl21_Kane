@@ -2,14 +2,18 @@
 NFL Big Data Bowl 2021 Repo for Matt Kane
 
 The Value of Space Occupation for NFL Defensive Backs
+
 By Matthew Kane
 
 I. Introduction
+
 The capturing of data in sports has long been centered around the events that occur when a player has the ball. This can be seen across all sports, from homeruns in baseball to goals scored in soccer. However, as any casual fan could tell you, there is much more to the game than these easily measurable stats. As technology has progressed, so has our ability to capture and evaluate events that occur off the ball. In the NFL, measurements such as sprint speed, WR separation, and time in the pocket now control the new wave of in-game analysis. Yet, defensive statistics remain fairly untouched. The media, fans, and NFL based twitter accounts still over focus on the rare events when a defensive player controls the ball; such as a turnover, like a fumble or an interception. There remain several issue with that though as these plays are extremely rare and are often not the most consistent way of evaluating defensive talent.
 
 Therefore, with the dataset provided by the NFL Big Data Bowl, I decided to evaluate defensive backs solely on what is happening off of the ball. Using a space occupation model (initially developed for soccer analysis), we can better attempt to capture how well a defender is limiting the options of the quarterback, simply by how they are moving. The impacts of this model can be seen through the in-game examples and analysis presented below.
 
+
 II. Process
+
 The basis for this space occupation models comes from the work of Javier Heranandez and Luke Bornn: Wide Open Spaces (link). By making some minor adjustments and alterations, their player influence area method can be applied to the game of football. For a more detailed breakdown, the math can be found in the appendix of their publication.
 
 The first step is calculating the player influence area for every player on the field. These influence areas are based on their distance from the ball, their speed, and their direction (create a covariance matrix based on the multiplication of a rotational matrix (direction the player is moving) and a scaling matrix (based on the distance from the ball and speed). After multiplying those together and getting each player’s influence area, we can aggregate to produce each team’s influence area on the field. This results in a statistic I call: Space Value (SV).
@@ -39,10 +43,11 @@ Then, Mills bites on the hitch route as Jones turns upfield. During this time, J
 -   Note that the green player highlights indicate the occupation of valuable space (QOSi >= 0.075)
     McLeod and Mills were both in valuable space before Jones turned back up field, where Jones then became the one highlighted in light green.
 
-
 ![](animation_QOS_2018090600_2474.gif)
 
+
 III. Analysis
+
 Before we start breaking down the potential uses of these metrics, it is best to first confirm that they provide meaning and insight into plays. By running a two simple logistic regression models, it becomes clear that these metrics fall in line with important play results.
 
 Via figure 4, the two models are saying that when modeling for target% and completion%, the prediction rates go down if the defensive player has a higher QOSi and the prediction rates go up if the defender experiences significant space occupation loss. In simplier terms, to limit targets and high completion percentages, it is better for a defender to have a high QOSi and not experience SOL. When looking at the intercepts, it is possible to conclude that the completion percentage model starts low and an occurance of SOL drives it up. Vice versa with target percentage and QOSi being low. Basically, it goes to show that the value of space is more important in whether or not defensive backs get targeted (i.e. QB picks on defenders in poor positions), while experiencing a significant loss in space is key in determining if the catch was made (i.e. easier catch for WR if defender experiences significant loss in positioning).
@@ -70,6 +75,7 @@ In selecting two of the better corner backs, Gilmore and Haden, we can compare t
 
 
 IV. Future Considerations
+
 While the potential use cases for this metric could go on for a while, there are still many ways forward with this topic.
 
 The first of which is to incorporate player orientation into the player influence area model. Doing so would allow further analysis into things like a defender getting turned around (like Mills), which WR orientations cause SOL in defensive backs, and the ability of a defensive back to adjust to the pass and pick it off.
@@ -81,8 +87,8 @@ Then for the QOSi equations, they were created off of intuition and weren't high
 Lastly, there is the potential for better field values (xEPA) estimates. Using simple linear regression, we were able to closely approximate the xEPA model. However, this is obviously not perfect and saying “what’s the value if the play ended at this yardline” is not the most ideal way to capture the field value, as a good amount of passing plays result in yards after the catch.
 
 
-
 V. Code
+
 Github code
 
 My apologies for the gif links, but putting them in the notebook directly resulted in too large of a kernel source. I hope you will understand. Thank you!
