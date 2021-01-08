@@ -14,7 +14,7 @@ Therefore, with the dataset provided by the NFL Big Data Bowl, I decided to eval
 
 II. Process
 
-The basis for this space occupation models comes from the work of Javier Hernandez and Luke Bornn: Wide Open Spaces (link). By making some minor adjustments and alterations, their player influence area method can be applied to the game of football. For a more detailed breakdown, the math can be found in the appendix of their publication.
+The basis for this space occupation models comes from the work of Javier Hernandez and Luke Bornn: Wide Open Spaces ([link](https://www.researchgate.net/publication/324942294_Wide_Open_Spaces_A_statistical_technique_for_measuring_space_creation_in_professional_soccer)). By making some minor adjustments and alterations, their player influence area method can be applied to the game of football. For a more detailed breakdown, the math can be found in the appendix of their publication.
 
 The first step is calculating the player influence area for every player on the field. These influence areas are based on their distance from the ball, their speed, and their direction (create a covariance matrix based on the multiplication of a rotational matrix (direction the player is moving) and a scaling matrix (based on the distance from the ball and speed). After multiplying those together and getting each player’s influence area, we can aggregate to produce each team’s influence area on the field. This results in a statistic I call: Space Value (SV).
 
@@ -22,7 +22,7 @@ A value greater than 0.5 indicates that the offensive team has more control, whi
 
 However, this space value hardly tells the whole story as most defenders know that leaving a WR wide open 15 years down the field is much different than an open RB in the backfield on a swing route. To accommodate for this, we need to factor in the value of different positions on the field. Despite not knowing how the NFL’s xEPA model work, we can attempt to estimate this by taking subset of plays and modeling the resulting xEPA given the down, yardline, yardsToGo, playResult, and time left in the half. With these models, we can provide a field value (FV) for each yardline on the field which serves an estimate of xEPA for a play that ends at that yardmarker.
 
-The final step of this model is to multiply the space value and the field value to create a metric called: Quality of Space (QOS). An example of these 3 measurements can be seen below in Figure 1 through a Dallas Goedert against the Falcons in the first game of 2018 (link). As the first image shows, Goedert (#88) generates space as he turns towards the sidelines shortly before Foles releases the ball. The second value shows the field value on the play (xEPA of a touchdown = 4.97, xEPA of 10 yard gain = 0.59). And the third image shows the combination of the two through the QOS metric. Also seen on the play is the value created by Darren Sproles (#43) out of the backfield. Where, despite having a lower field value, he is considerably more open than Goedert, which winds up balancing out and producing a similarly valuable area (dark red) in front of each player.
+The final step of this model is to multiply the space value and the field value to create a metric called: Quality of Space (QOS). An example of these 3 measurements can be seen below in Figure 1 through a Dallas Goedert against the Falcons in the first game of 2018 ([link](https://youtu.be/r9l-ADHLQZc?t=1353)). As the first image shows, Goedert (#88) generates space as he turns towards the sidelines shortly before Foles releases the ball. The second value shows the field value on the play (xEPA of a touchdown = 4.97, xEPA of 10 yard gain = 0.59). And the third image shows the combination of the two through the QOS metric. Also seen on the play is the value created by Darren Sproles (#43) out of the backfield. Where, despite having a lower field value, he is considerably more open than Goedert, which winds up balancing out and producing a similarly valuable area (dark red) in front of each player.
 
 ![](animation_SV_2018090600_2624.gif)
 
@@ -32,7 +32,7 @@ Figure 2 below shows how the QOSi value fluctuates given the QOS metric with the
 
 ![](QOSi_equations_anim2.gif)
 
-Figure 3 provides an example from the same Falcons v. Eagles game of Week 1. On this play, Jalen Mills bites on a Julio Jones double move as he completes a go route (link). Walking through the play:
+Figure 3 provides an example from the same Falcons v. Eagles game of Week 1. On this play, Jalen Mills bites on a Julio Jones double move as he completes a go route ([link](https://twitter.com/NFL/status/1037899545567346688)). Walking through the play:
 
 We first notice that the QOSi values for both Mills (#31) and Jones (#11) steadily rise after the ball is snapped, due to their increase in pitch value as they move down the field into more valuable positions.
 
@@ -92,16 +92,4 @@ V. Code
 Github code
 
 My apologies for the gif links, but putting them in the notebook directly resulted in too large of a kernel source. I hope you will understand. Thank you!
-
-
-
-
-
-
-
-
-
-
-
-
 
